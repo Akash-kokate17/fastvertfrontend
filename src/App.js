@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./App.css";
+import Swal from 'sweetalert2'
 
 function App() {
   const [h1Text, setH1Text] = useState("");
   const [newH1Text, setNewH1Text] = useState("");
+  const inputRef = useRef()
 
   useEffect(() => {
     axios
@@ -18,13 +20,17 @@ function App() {
   }, []);
 
   const handleChangeH1 = () => {
+    if(inputRef.current.value === ""){
+    Swal.fi("plz Enter H1 Text")
+    return
+    }
     axios
-      .post("https://fastvertbackend.onrender.com/api/h1", { text: newH1Text })
-      .then((response) => {
-        setH1Text(response.data.text);
-        setNewH1Text("");
-      })
-      .catch((error) => console.error(error));
+    .post("https://fastvertbackend.onrender.com/api/h1", { text: newH1Text })
+    .then((response) => {
+      setH1Text(response.data.text);
+      setNewH1Text("");
+    })
+    .catch((error) => console.error(error));
   };
 
   const gradientTextStyle = {
@@ -44,6 +50,7 @@ function App() {
           onChange={(e) => setNewH1Text(e.target.value)}
           placeholder="New H1 Text"
           className="form-control text-center rounded"
+          ref={inputRef}
         />
         <button onClick={handleChangeH1} className="btn btn-primary">
           Change H1 Text
