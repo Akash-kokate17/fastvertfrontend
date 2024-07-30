@@ -42,7 +42,7 @@ function App() {
 
   return (
     <>
-      <div className="App container d-flex justify-content-center mt-4 input-group w-50">
+        <div className="App container d-flex justify-content-center mt-4 input-group w-100">
         <input
           type="text"
           value={newH1Text}
