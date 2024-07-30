@@ -1,24 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
+  const [h1Text, setH1Text] = useState("");
+  const [newH1Text, setNewH1Text] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/h1")
+      .then((response) => {
+        if (response.data) {
+          setH1Text(response.data.text);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const handleChangeH1 = () => {
+    axios
+      .post("http://localhost:5000/api/h1", { text: newH1Text })
+      .then((response) => {
+        setH1Text(response.data.text);
+        setNewH1Text("");
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const gradientTextStyle = {
+    background: 'linear-gradient(to right, #ff6f61, #d083c8)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    textAlign: 'center',
+    marginTop: '1rem'
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App container d-flex justify-content-center mt-4 input-group w-50">
+        <input
+          type="text"
+          value={newH1Text}
+          onChange={(e) => setNewH1Text(e.target.value)}
+          placeholder="New H1 Text"
+          className="form-control text-center rounded"
+        />
+        <button onClick={handleChangeH1} className="btn btn-primary">
+          Change H1 Text
+        </button>
+      </div>
+      <h1 className="mt-4 text-center" style={gradientTextStyle}>{h1Text}</h1>
+    </>
   );
 }
 
