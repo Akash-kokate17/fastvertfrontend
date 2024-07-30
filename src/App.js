@@ -8,7 +8,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/h1")
+      .get("https://fastvertbackend.onrender.com/api/h1")
       .then((response) => {
         if (response.data) {
           setH1Text(response.data.text);
@@ -19,7 +19,7 @@ function App() {
 
   const handleChangeH1 = () => {
     axios
-      .post("http://localhost:5000/api/h1", { text: newH1Text })
+      .post("https://fastvertbackend.onrender.com/api/h1", { text: newH1Text })
       .then((response) => {
         setH1Text(response.data.text);
         setNewH1Text("");
