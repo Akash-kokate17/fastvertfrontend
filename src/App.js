@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./App.css";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 function App() {
   const [h1Text, setH1Text] = useState("");
   const [newH1Text, setNewH1Text] = useState("");
-  const inputRef = useRef()
+  const inputRef = useRef();
 
   useEffect(() => {
     axios
@@ -20,17 +20,16 @@ function App() {
   }, []);
 
   const handleChangeH1 = () => {
-    if(inputRef.current.value === ""){
-    Swal.fi("plz Enter H1 Text")
-    return
+    if (inputRef.current.value === "") {
+      return Swal.fire("Please enter H1 text");
     }
     axios
-    .post("https://fastvertbackend.onrender.com/api/h1", { text: newH1Text })
-    .then((response) => {
-      setH1Text(response.data.text);
-      setNewH1Text("");
-    })
-    .catch((error) => console.error(error));
+      .post("https://fastvertbackend.onrender.com/api/h1", { text: newH1Text })
+      .then((response) => {
+        setH1Text(response.data.text);
+        setNewH1Text("");
+      })
+      .catch((error) => console.error(error));
   };
 
   const gradientTextStyle = {
